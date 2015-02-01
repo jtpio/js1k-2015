@@ -1,0 +1,1 @@
+_='W=a.width=44H=a.height=30t=setInterval(function(){t+=.1Style="rgb(2, 3, cos4)"Rect(W,H)},33);"+~~(255*abs()))+"sin,c.fill0,Math.(t+.';for(Y in $='')with(_.split($[Y]))_=join(pop());eval(_)

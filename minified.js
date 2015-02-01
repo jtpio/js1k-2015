@@ -1,0 +1,1 @@
+W=a.width=440,H=a.height=300,t=0,setInterval(function(){t+=.1,c.fillStyle="rgb("+~~(255*Math.abs(Math.sin(t+.2)))+", "+~~(255*Math.abs(Math.sin(t+.3)))+", "+~~(255*Math.abs(Math.cos(t+.4)))+")",c.fillRect(0,0,W,H)},33);
