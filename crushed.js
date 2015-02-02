@@ -1,1 +1,1 @@
-_='W=a.width=44H=a.height=30t=setInterval(function(){t+=.1Style="rgb(2, 3, cos4)"Rect(W,H)},33);"+~~(255*abs()))+"sin,c.fill0,Math.(t+.';for(Y in $='')with(_.split($[Y]))_=join(pop());eval(_)
+_='function (){t+=.1,i,x;x<W;xy;y<H;yk=i;i<k+4;)[i++]=~~(255*Mh.random());c.putI(i,0,0)}t,W=a.widthH=a.heighti=c.creeI(W,H),=i.da,setInterval(,33);mageDafor(pixels=0atdraw/=4,++)';for(Y in $='')with(_.split($[Y]))_=join(pop());eval(_)

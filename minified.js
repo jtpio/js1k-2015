@@ -1,1 +1,1 @@
-W=a.width=440,H=a.height=300,t=0,setInterval(function(){t+=.1,c.fillStyle="rgb("+~~(255*Math.abs(Math.sin(t+.2)))+", "+~~(255*Math.abs(Math.sin(t+.3)))+", "+~~(255*Math.abs(Math.cos(t+.4)))+")",c.fillRect(0,0,W,H)},33);
+function draw(){for(t+=.1,i=0,x=0;x<W;x++)for(y=0;y<H;y++)for(k=i;i<k+4;)pixels[i++]=~~(255*Math.random());c.putImageData(imageData,0,0)}t=0,W=a.width/=4,H=a.height/=4,imageData=c.createImageData(W,H),pixels=imageData.data,setInterval(draw,33);

@@ -6,6 +6,6 @@
     "jscrush": "0.0.0"
   },
   "scripts": {
-    "build": "cat source.js | uglifyjs -c unused=false | tee minified.js | jscrush > crushed.js && wc -c *.js"
+    "build": "cat source.js | uglifyjs -c unused=false | tee minified.js | jscrush > crushed.js && sed -e '/SUB/r crushed.js' < shim.html > index.html && wc -c *.js"
   }
 }
