@@ -138,26 +138,27 @@ function draw () {
     i = 0;
     eyeX = W / 2;
     eyeY = H / 2;
-    eyeZ = 40;
-    step = 1;
+    eyeZ = -40;
 
     // raymarch
     for (x = 0; x < W; x++) {
         for (y = 0; y < H; y++) {
             var dx = (x - eyeX);
             var dy = (y - eyeY);
-            var dz = (0 + eyeZ);
-            var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
-            // var rayUnit = [dx/len, dy/len, ];
+            var dz = (0 - eyeZ);
+            var mul = 2;
+            var len = Math.sqrt(dx * dx + dy * dy + dz * dz) / mul;
+            var rayUnit = [dx/len, dy/len, dz/len];
 
-            var mul = 50;
-            stepX = (dx / len * step)* len / eyeZ * mul;
+          /*  stepX = (dx / len * step)* len / eyeZ * mul;
             stepY = (dy / len * step)* len / eyeZ * mul;
             stepZ = (dz / len * step)* len / eyeZ * mul;
-
+*/
             rx = eyeX;
             ry = eyeY;
             rz = eyeZ;
+
+            step = 0;
             var hit = false;
             var dist = 10000;
             var it = 0;
@@ -168,9 +169,10 @@ function draw () {
                     hit = true;
                     break;
                 }
-                rx += stepX;
-                ry += stepY;
-                rz += stepZ;
+                step += 1;
+                rx = eyeX + dx * step;
+                ry = eyeY + dy * step;
+                rz = eyeZ + dz * step;
             }
 
             i = (x + y * W) * 4;
