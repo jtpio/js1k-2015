@@ -5,8 +5,8 @@ imageData = c.createImageData(W, H);
 pixels = imageData.data;
 
 function cube(x, y, z, size){
-    return Math.max(Math.max(Math.abs(x)-size, Math.abs(y)-size), Math.abs(z)-size);
-    // return Math.sqrt(x * x + y * y + z * z) - 40;
+    // return Math.max(Math.max(Math.abs(x)-size, Math.abs(y)-size), Math.abs(z)-size);
+    return Math.sqrt(x * x + y * y + z * z) - 40;
 }
 
 cubePos = [100, 50, 50];
@@ -27,6 +27,7 @@ function draw () {
             var dy = (y - eyeY);
             var dz = (0 + eyeZ);
             var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            // var rayUnit = [dx/len, dy/len, ];
 
             var mul = 50;
             stepX = (dx / len * step)* len / eyeZ * mul;
@@ -38,7 +39,9 @@ function draw () {
             rz = eyeZ;
             var hit = false;
             var dist = 10000;
-            for (; rz < 200;) {
+            var it = 0;
+            for (; rz < 255;) {
+                it++;
                 dist = cube(rx - cubePos[0] + 90 * Math.cos(t), ry - cubePos[1], rz - cubePos[2], 50);
                 if (dist < 10) {
                     hit = true;
@@ -53,7 +56,7 @@ function draw () {
 
             if (hit) {
                 pixels[i + 0] = 255;
-                pixels[i + 1] = dist * 50;
+                pixels[i + 1] = it * 50;
                 pixels[i + 2] = 0;
                 pixels[i + 3] = 255;
             } else {
