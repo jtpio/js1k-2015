@@ -125,12 +125,16 @@ H = a.height /= 4;
 imageData = c.createImageData(W, H);
 pixels = imageData.data;
 
-function cube(x, y, z, size){
+function sphere(x, y, z, size) {
     // return Math.max(Math.max(Math.abs(x)-size, Math.abs(y)-size), Math.abs(z)-size);
-    return Math.sqrt(x * x + y * y + z * z) - 40;
+    return Math.sqrt(x * x + y * y + z * z) - size;
 }
 
-cubePos = [100, 50, 50];
+
+boxes = [
+    [100, 50, 100],
+    [350, 50, 100]
+];
 
 function draw () {
     t+=0.1;
@@ -146,9 +150,8 @@ function draw () {
             var dx = (x - eyeX);
             var dy = (y - eyeY);
             var dz = (0 - eyeZ);
-            var mul = 2;
-            var len = Math.sqrt(dx * dx + dy * dy + dz * dz) / mul;
-            var rayUnit = [dx/len, dy/len, dz/len];
+            var len = Math.sqrt(dx * dx + dy * dy + dz * dz);
+            var rayDirection = [dx/len, dy/len, dz/len];
 
           /*  stepX = (dx / len * step)* len / eyeZ * mul;
             stepY = (dy / len * step)* len / eyeZ * mul;
@@ -158,33 +161,37 @@ function draw () {
             ry = eyeY;
             rz = eyeZ;
 
-            step = 0;
             var hit = false;
-            var dist = 10000;
+            var step = 0;
             var it = 0;
             for (; rz < 255;) {
                 it++;
-                dist = cube(rx - cubePos[0] + 90 * Math.cos(t), ry - cubePos[1], rz - cubePos[2], 50);
-                if (dist < 10) {
+                var dist = 10000000;
+                for (var b in boxes) {
+                    dist = Math.min(dist, sphere(rx - boxes[b][0] + 90 * Math.cos(t), ry - boxes[b][1], rz - boxes[b][2], 50));
+                }
+                if (dist < 5) {
                     hit = true;
                     break;
                 }
-                step += 1;
-                rx = eyeX + dx * step;
-                ry = eyeY + dy * step;
-                rz = eyeZ + dz * step;
+                step += dist;// dist / 2;
+                rx = eyeX + rayDirection[0] * step;
+                ry = eyeY + rayDirection[1] * step;
+                rz = eyeZ + rayDirection[2] * step;
             }
+
+            // console.log(it);
 
             i = (x + y * W) * 4;
 
             if (hit) {
                 pixels[i + 0] = 255;
-                pixels[i + 1] = it * 50;
-                pixels[i + 2] = 0;
+                pixels[i + 1] = it / 2;
+                pixels[i + 2] = 255;
                 pixels[i + 3] = 255;
             } else {
                 pixels[i + 0] = 0;
-                pixels[i + 1] = 255;
+                pixels[i + 1] = 0;
                 pixels[i + 2] = 0;
                 pixels[i + 3] = 255;
             }
@@ -195,6 +202,7 @@ function draw () {
 }
 
 setInterval(draw, 16);
+// draw();
 
     </script>
     <script>
