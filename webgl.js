@@ -1,103 +1,87 @@
-//Original source before manual size optimizations
-
-//VERTEX_SHADER
-var vs=""+
+vs=""+
 "attribute vec2 p;"+
 "void main(){"+
 "  gl_Position=vec4(p,0,1);"+
 "}";
 
-//FRAGMENT_SHADER
-var fs=""+
-//"#ifdef GL_ES"+
+fs=""+
 "precision highp float;"+
-//"#endif"+
-""+
 "uniform float iGlobalTime;"+
-""+
 "vec2 iResolution=vec2("+a.width+","+a.height+");"+
-""+
-"float box(vec3 p, vec3 b, float size){" +
-"  return length(max(abs(p)-b,0.0)) - size;" +
-"}" +
-"" +
-"float cylinder(vec2 pos) {" +
-"    return length(pos) - 0.04;" +
-"}" +
-"" +
-"void main(void)" +
-"{" +
-"    vec2 uv = gl_FragCoord.xy / iResolution.xy - 0.5;" +
-"    uv.y *= 0.85;" +
-"" +
-"    float ratio = iResolution.x / iResolution.y;" +
-"    uv.x *= ratio;" +
-"" +
-"    vec3 ray = normalize(vec3(uv,0.5));" +
-"" +
-"    float t = 0.0;" +
-"    float d = 0.0;" +
-"    vec3 col;" +
-"" +
-"    for(int i = 0; i < 50; ++i){" +
-"        vec3 pos = ray*t;" +
-"        pos.z += iGlobalTime/4.0;" +
-"        pos = fract(pos) - 0.5;" +
-"" +
-"        d = box(pos, vec3(0.05, 0.05, 0.05), 0.04);" +
-"        col = vec3(1.0, 1.0, 0.0);" +
-"        float k = d;" +
-"        for (float j = 0.0; j < 3.0; j++) {" +
-"            float id = floor(fract(j/3.0)*3.0);" +
-"            if (id == 0.0) {" +
-"                k = cylinder(pos.xy);" +
-"            } else if (id == 1.0) {" +
-"                k = cylinder(pos.xz);" +
-"            } else if (id == 2.0) {" +
-"                k = cylinder(pos.yz);" +
-"            }" +
-"            if(k<d){" +
-"                d=k;" +
-"                col=vec3(0.2,1.0,0.1) * j / 0.2;" +
-"            }" +
-"        }" +
-"" +
-"        t+=d;" +
-"    }" +
-"" +
-"    float tint = 1.0 / (t*t*t);" +
-"    gl_FragColor = vec4(tint*col, 1.0);" +
-"}";
+"vec2 v(vec2 v,vec2 y)" +
+ "{" +
+   "return v.x<y.x?v:y;" +
+ "}" +
+ "float v(vec2 v)" +
+ "{" +
+   "return v=v*v,v=v*v,v=v*v,pow(v.x+v.y,.125);" +
+ "}" +
+ "vec2 n(vec3 m)" +
+ "{" +
+   "vec2 n=abs(vec2(length(m.xy),m.z-99.+mod(iGlobalTime*20.,198.)))-vec2(.7,5.);" +
+   "float i=min(max(n.x,n.y),0.)+length(max(n,0.));" +
+   "return v(v(vec2(i,50.),vec2(length(m.yx)-.5,3.)),vec2(v(vec2(v(m.xy)-.9,mod(m.z,5.)-2.5))-.2,.05));" +
+ "}" +
+ "vec3 n(vec3 v,float m)" +
+ "{" +
+   "float i=sin(m),n=cos(m);" +
+   "return vec3(n*v.x+i*v.z,v.y,-i*v.x+n*v.z);" +
+ "}" +
+ "vec2 m(in vec3 m)" +
+ "{" +
+   "vec2 i=vec2(999.,0.);" +
+   "for(float f=0.;f<.3;f+=.1)" +
+     "i=v(i,n(n(m,f*9.)+vec3(2.,f*20.,1.)));" +
+   "return i;" +
+ "}" +
+ "void main()" +
+ "{" +
+   "vec2 v=-1.+2.*gl_FragCoord.xy/iResolution.xy;" +
+   "v.x*=iResolution.x/iResolution.y;" +
+   "float i=iGlobalTime/6.;" +
+   "vec3 n=vec3(10.*sin(i),5.*sin(i),20.*cos(i)),f=normalize(vec3(v.xy,1.5));" +
+   "float x=1.;" +
+   "for(int r=0;r<99;r++)" +
+     "{" +
+       "float y=m(n+f*x).x;" +
+       "if(y<.01||x>60.)" +
+         "break;" +
+       "x+=y;" +
+     "}" +
+   "vec3 y=vec3(0.),l=n+x*f;" +
+   "if(x<60.)" +
+     "{" +
+       "vec3 r=vec3(.001,y.yz),z=normalize(vec3(m(l+r.xyy).x-m(l-r.xyy).x,m(l+r.yxy).x-m(l-r.yxy).x,m(l+r.yyx).x-m(l-r.yyx).x)),d=normalize(vec3(-.6,.9,-.5));" +
+       "float s=max(0.,dot(z,d));" +
+       "if(s<.1)" +
+         "s=0.;" +
+       "else" +
+         " if(s<.3)" +
+           "s=.3;" +
+         "else" +
+           " if(s<.7)" +
+             "s=.7;" +
+           "else" +
+             " s=1.;" +
+       "float e=max(0.,dot(z,d));" +
+       "y=.4*(1.+sin(vec3(.5,.42,0)*(m(l).y-1.)))*(1.+s+step(.35,e*e));" +
+     "}" +
+   "gl_FragColor=vec4(mix(y,vec3(0.),smoothstep(0.,1.,(length(l)-.5)/48.5)),1.);" +
+ "}";
 
-function compileShader(g, shaderSource, shaderType) {
-  var shader=g.createShader(shaderType);
-  g.shaderSource(shader, shaderSource);
-  g.compileShader(shader);
-  //******** DEBUG ****************
-  var ok = g.getShaderParameter(shader,g.COMPILE_STATUS);
-  if (!ok) {throw "Shader Compile Error:" + g.getShaderInfoLog(shader);}
-  //******** DEBUG ****************
-  return shader;
-}
+p=g.createProgram();
+shader=g.createShader(g.VERTEX_SHADER);
+g.shaderSource(shader, vs);
+g.compileShader(shader);
+g.attachShader(p,shader);
+shader=g.createShader(g.FRAGMENT_SHADER);
+g.shaderSource(shader, fs);
+g.compileShader(shader);
+g.attachShader(p,shader);
+g.linkProgram(p);
+g.useProgram(p);
 
-function createProgram(vertexShaderSource,fragmentShaderSource){
-  var p=g.createProgram();
-  g.attachShader(p,compileShader(g,vs,g.VERTEX_SHADER));
-  g.attachShader(p,compileShader(g,fs,g.FRAGMENT_SHADER));
-  g.linkProgram(p);
-  //******** DEBUG ****************
-  var ok= g.getProgramParameter(p,g.LINK_STATUS);
-  if (!ok){throw ("Shader Link Error:" +g.getProgramInfoLog(p));}
-  //******** DEBUG ****************
-  g.useProgram(p);
-  return p;
-}
-
-//Create Shader
-var p=createProgram(vs,fs);
-
-//Set Shader vertex data
-var pLocation=g.getAttribLocation(p,"p");
+pLocation=g.getAttribLocation(p,"p");
 g.bindBuffer(g.ARRAY_BUFFER,g.createBuffer());
 g.bufferData(g.ARRAY_BUFFER,new Float32Array(
   [-1,-1,
@@ -110,17 +94,16 @@ g.enableVertexAttribArray(pLocation);
 g.vertexAttribPointer(pLocation,2,g.FLOAT,false,0,0);
 
 //Set Shader time variable iGlobalTime
-var tLocation=g.getUniformLocation(p,"iGlobalTime");
+tLocation=g.getUniformLocation(p,"iGlobalTime");
 
 //Get Inicial Time
-var initTime=Date.now();
+initTime=Date.now();
 
 //Render Frame loop
-function draw(){
+(function draw(){
   //Set time
   g.uniform1f(tLocation,(Date.now()-initTime)*0.001);
   //Draw
   g.drawArrays(g.TRIANGLES,0,6);
   requestAnimationFrame(draw);
-}
-draw();
+})();
