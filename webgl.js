@@ -1,8 +1,4 @@
-vs=""+
-"attribute vec2 p;"+
-"void main(){"+
-"  gl_Position=vec4(p,0,1);"+
-"}";
+vs="attribute vec4 p;void main(){gl_Position=p;}";
 
 fs=""+
 "precision highp float;"+
