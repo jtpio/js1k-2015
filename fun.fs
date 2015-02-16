@@ -19,36 +19,24 @@ vec2 rail(vec3 pos) {
 
             opU(vec2(cyl, 50.0), vec2(length(pos.yx)-0.5, 3.0)),
             // the torus along the tube
-            vec2(length8(vec2(length8(pos.xy)-0.9,mod(pos.z,5.0)-2.5))-0.2, 0.05));
+            vec2(length8(vec2(length8(pos.xy)-0.9,mod(pos.z,5.0)-2.5))-0.2, 0.1));
 }
 
-vec3 roty(vec3 p, float a)
-{
-    float s = sin(a), c = cos(a);
-    return vec3(c*p.x + s*p.z, p.y, -s*p.x + c*p.z);
-}
-
-vec2 map( in vec3 pos ) {
-    vec2 res = vec2(999.0, 0.0);
-    for (float i = 0.0; i < 0.3; i+=0.1) {
-        res = opU(res, rail(roty(pos, i * 9.0) + vec3(2.0, i * 20.0, 1.0)));
+vec2 map(vec3 pos) {
+    vec2 res = vec2(1.0);
+    for (float i = 0.3; i < 0.6; i+=0.1) {
+        float s = sin(i * 18.0), c = cos(i * 18.0);
+        res = opU(res, rail(vec3(c*pos.x + s*pos.z, pos.y, -s*pos.x + c*pos.z) + vec3(2.0, sqrt(i) * 30.0 - 15.0, 1.0)));
     }
     return res;
-    /*
-    vec3 pos2 = roty(pos, 0.8) + vec3(0.0, 2.0, 0.0);
-    vec3 pos3 = roty(pos, 3.14) + vec3(0.0, -2.2, 5.0);
-    vec3 pos4 = rotx(pos, 1.57) + vec3(-5.0, 5.0, -10.0);
-    return opU(opU(opU(rail(pos), rail(pos2)), rail(pos3)), rail(pos4));
-    */
 }
 
-void main( void )
+void main()
 {
     vec2 p = (-1.0+2.0 * gl_FragCoord.xy/iResolution.xy);
     p.x *= iResolution.x/iResolution.y;
 
-    float time = iGlobalTime / 6.0;
-    vec3 ro = vec3(10.0 * sin(time), 5.0*sin(time), 20.0 * cos(time));
+    vec3 ro = vec3(0.0, -5.0, -9.0);
     vec3 rd = normalize(vec3(p.xy,1.5));
 
     float t = 1.0;
@@ -58,8 +46,7 @@ void main( void )
         t += res;
     }
 
-    vec3 col = vec3(0.0);
-    vec3 pos = ro+t*rd;
+    vec3 col = vec3(0), pos = ro+t*rd;
     if (t < 60.0) {
 
         vec3 eps = vec3(0.001, col.yz);

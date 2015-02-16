@@ -1,1 +1,1 @@
-mono shader_minifier.exe --format js --smoothstep fun.fs -o fun_minified.h
+mono shader_minifier.exe --format js fun.fs -o fun_minified.h
