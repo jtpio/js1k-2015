@@ -32,24 +32,24 @@ void main()
     p.x *= R.x/R.y;
 
     vec3 ro = vec3(0.0, 8.0, -16.0);
-    vec3 rd = normalize(vec3(p.xy, 2.0)), pos;
+    vec3 rd = normalize(vec3(p.xy, 2.0));
 
-    float t = 1.0, res;
+    float t = 1.0;
     vec3 col = vec3(0.9);
 
     for (int i=0; i<99; i++) {
-        if((res=map(pos=ro+rd*t).x) < 0.01 || t > 60.0 ) break;
-        t += res;
+        if(map(ro+rd*t).x < 0.01 || t > 60.0 ) break;
+        t += map(ro+rd*t).x;
     }
 
     if (t < 60.0) {
         vec3 eps = vec3(0.01, 0.0, 0.0);
         vec3 nor = normalize(vec3(
-            map(pos+eps.xyy).x - map(pos-eps.xyy).x,
-            map(pos+eps.yxy).x - map(pos-eps.yxy).x,
-            map(pos+eps.yyx).x - map(pos-eps.yyx).x ));
+            map(ro+rd*t+eps.xyy).x - map(ro+rd*t-eps.xyy).x,
+            map(ro+rd*t+eps.yxy).x - map(ro+rd*t-eps.yxy).x,
+            map(ro+rd*t+eps.yyx).x - map(ro+rd*t-eps.yyx).x ));
 
-        col = 0.4 * (1.0+sin(vec3(0.5,0.4,0)*(map(pos).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))));
+        col = 0.4 * (1.0+sin(vec3(0.5,0.4,0)*(map(ro+rd*t).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))));
     }
 
     gl_FragColor = vec4(col/*mix(col, vec3(0.9), smoothstep(8.5,29.0, length(pos)))*/, 1.0);

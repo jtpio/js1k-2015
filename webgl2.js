@@ -5,10 +5,10 @@ with(g){
     for(x=crP(t=r=2);t;coS(s),atS(x,s))
         shS(s=crS(35634-t),
 
-          --t?"precision highp float;"+
+          --t?"precision lowp float;"+
           "uniform float T;"+
           "vec2 R=vec2("+(a.width/=3)+","+(a.height/=3)+");"+
-"vec2 v(vec2 x,vec2 y)" +
+ "vec2 v(vec2 x,vec2 y)" +
  "{" +
    "return x.x<y.x?x:y;" +
  "}" +
@@ -31,21 +31,21 @@ with(g){
  "{" +
    "vec2 v=-1.+2.*gl_FragCoord.xy/R.xy;" +
    "v.x*=R.x/R.y;" +
-   "vec3 x=vec3(0.,8.,-16.),m=normalize(vec3(v.xy,2.)),y;" +
-   "float d=1.,c;" +
-   "vec3 f=vec3(.9);" +
-   "for(int r=0;r<99;r++)" +
+   "vec3 m=vec3(0.,8.,-16.),d=normalize(vec3(v.xy,2.));" +
+   "float x=1.;" +
+   "vec3 y=vec3(.9);" +
+   "for(int f=0;f<99;f++)" +
      "{" +
-       "if((c=n(y=x+m*d).x)<.01||d>60.)" +
+       "if(n(m+d*x).x<.01||x>60.)" +
          "break;" +
-       "d+=c;" +
+       "x+=n(m+d*x).x;" +
      "}" +
-   "if(d<60.)" +
+   "if(x<60.)" +
      "{" +
-       "vec3 s=vec3(.01,0.,0.),r=normalize(vec3(n(y+s.xyy).x-n(y-s.xyy).x,n(y+s.yxy).x-n(y-s.yxy).x,n(y+s.yyx).x-n(y-s.yyx).x));" +
-       "f=.4*(1.+sin(vec3(.5,.4,0)*(n(y).y-1.)))*(1.+(max(0.,dot(r,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(r,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(r,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.3,max(0.,dot(r,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(r,normalize(vec3(-.6,.9,-.5))))));" +
+       "vec3 s=vec3(.01,0.,0.),z=normalize(vec3(n(m+d*x+s.xyy).x-n(m+d*x-s.xyy).x,n(m+d*x+s.yxy).x-n(m+d*x-s.yxy).x,n(m+d*x+s.yyx).x-n(m+d*x-s.yyx).x));" +
+       "y=.4*(1.+sin(vec3(.5,.4,0)*(n(m+d*x).y-1.)))*(1.+(max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.3,max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))));" +
      "}" +
-   "gl_FragColor=vec4(f,1.);" +
+   "gl_FragColor=vec4(y,1.);" +
  "}"
 
           :"attribute vec4 a;void main(){gl_Position=a;}");
