@@ -1,1 +1,1 @@
-mono shader_minifier.exe --format js fun.fs -o fun_minified.h
+node renamer.js fun.fs iGlobalTime=T iResolution=R > fun_renamed.fs mono shader_minifier.exe --format js fun_renamed.fs -o fun_minified.h

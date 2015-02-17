@@ -2,62 +2,50 @@
  * http://www.ctrl-alt-test.fr
  */
 
-var fun_fs =
+var fun_renamed_fs =
  "vec2 v(vec2 x,vec2 y)" +
  "{" +
    "return x.x<y.x?x:y;" +
  "}" +
  "float v(vec2 v)" +
  "{" +
-   "return v=v*v,v=v*v,v=v*v,pow(v.x+v.y,.125);" +
+   "return v=v*v*v*v,pow(v.x+v.y,.25);" +
  "}" +
- "vec2 x(vec3 m)" +
+ "vec2 n(vec3 y)" +
  "{" +
-   "vec2 x=abs(vec2(length(m.xy),m.z-99.+mod(iGlobalTime*20.,198.)))-vec2(.7,5.);" +
-   "float y=min(max(x.x,x.y),0.)+length(max(x,0.));" +
-   "return v(v(vec2(y,50.),vec2(length(m.yx)-.5,3.)),vec2(v(vec2(v(m.xy)-.9,mod(m.z,5.)-2.5))-.2,.1));" +
- "}" +
- "vec2 m(vec3 m)" +
- "{" +
-   "vec2 y=vec2(1.);" +
-   "for(float i=.3;i<.6;i+=.1)" +
+   "vec2 x=vec2(1.);" +
+   "for(float f=.3;f<1.;f+=.2)" +
      "{" +
-       "float s=sin(i*18.),l=cos(i*18.);" +
-       "y=v(y,x(vec3(l*m.x+s*m.z,m.y,-s*m.x+l*m.z)+vec3(2.,sqrt(i)*30.-15.,1.)));" +
+       "float n=sin(f*28.+T/3.),m=cos(f*28.+T/3.);" +
+       "vec3 d=vec3(m*y.x+n*y.z,y.y,-n*y.x+m*y.z)+vec3(2.,sqrt(f)*30.-30.,1.);" +
+       "vec2 R=abs(vec2(length(d.xy),d.z-99.+mod(T*20.,198.)))-vec2(.7,5.);" +
+       "float l=min(max(R.x,R.y),0.)+length(max(R,0.));" +
+       "x=v(x,v(v(vec2(l,50.),vec2(length(d.yx)-.5,3.)),vec2(v(vec2(v(d.xy)-.9,mod(d.z,5.)-2.5))-.2,.1)));" +
      "}" +
-   "return y;" +
+   "return x;" +
  "}" +
  "void main()" +
  "{" +
-   "vec2 v=-1.+2.*gl_FragCoord.xy/iResolution.xy;" +
-   "v.x*=iResolution.x/iResolution.y;" +
-   "vec3 i=vec3(0.,-5.,-9.),s=normalize(vec3(v.xy,1.5));" +
-   "float y=1.;" +
-   "for(int x=0;x<99;x++)" +
+   "vec2 v=-1.+2.*gl_FragCoord.xy/R.xy;" +
+   "v.x*=R.x/R.y;" +
+   "vec3 x=vec3(0.,8.,-12.),y=normalize(vec3(v.xy,1.5));" +
+   "float f=1.;" +
+   "for(int l=0;l<99;l++)" +
      "{" +
-       "float l=m(i+s*y).x;" +
-       "if(l<.01||y>60.)" +
+       "float m=n(x+y*f).x;" +
+       "if(m<.01||f>60.)" +
          "break;" +
-       "y+=l;" +
+       "f+=m;" +
      "}" +
-   "vec3 x=vec3(0),l=i+y*s;" +
-   "if(y<60.)" +
+   "vec3 l=vec3(0.),m=x+f*y;" +
+   "if(f<60.)" +
      "{" +
-       "vec3 n=vec3(.001,x.yz),z=normalize(vec3(m(l+n.xyy).x-m(l-n.xyy).x,m(l+n.yxy).x-m(l-n.yxy).x,m(l+n.yyx).x-m(l-n.yyx).x)),d=normalize(vec3(-.6,.9,-.5));" +
-       "float r=max(0.,dot(z,d));" +
-       "if(r<.1)" +
-         "r=0.;" +
-       "else" +
-         " if(r<.3)" +
-           "r=.3;" +
-         "else" +
-           " if(r<.7)" +
-             "r=.7;" +
-           "else" +
-             " r=1.;" +
-       "float e=max(0.,dot(z,d));" +
-       "x=.4*(1.+sin(vec3(.5,.42,0)*(m(l).y-1.)))*(1.+r+step(.35,e*e));" +
+       "vec3 d=vec3(.01,0.,0.),R=normalize(vec3(n(m+d.xyy).x-n(m-d.xyy).x,n(m+d.yxy).x-n(m-d.yxy).x,n(m+d.yyx).x-n(m-d.yyx).x)),r=normalize(vec3(-.6,.9,-.5));" +
+       "float s=max(0.,dot(R,r));" +
+       "s=s<.1?0.:s<.3?.3:s<.7?.7:1.;" +
+       "float z=max(0.,dot(R,r));" +
+       "l=.4*(1.+sin(vec3(.5,.4,0)*(n(m).y-1.)))*(1.+s+step(.3,z*z));" +
      "}" +
-   "gl_FragColor=vec4(mix(x,vec3(0.),smoothstep(.5,49.,length(l))),1.);" +
+   "gl_FragColor=vec4(l,1.);" +
  "}"
 

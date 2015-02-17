@@ -11,12 +11,12 @@ float len(vec2 p)
 vec2 map(vec3 pos) {
     vec2 res = vec2(1.0);
     for (float i = 0.3; i < 1.0; i+=0.2) {
-        float s = sin(i * 28.0 + iGlobalTime / 3.0), c = cos(i * 28.0 + iGlobalTime / 3.0);
+        float s = sin(i * 28.0 + T / 3.0), c = cos(i * 28.0 + T / 3.0);
         vec3 p = vec3(c*pos.x + s*pos.z, pos.y, -s*pos.x + c*pos.z) + vec3(2.0, sqrt(i) * 30.0 - 30.0, 1.0);
 
         // the train and the main tube
         // capped cylinder
-        vec2 d = abs(vec2(length(p.xy), p.z - 99.0 + mod(iGlobalTime * 20.0, 198.0))) - vec2(0.7, 5.0);
+        vec2 d = abs(vec2(length(p.xy), p.z - 99.0 + mod(T * 20.0, 198.0))) - vec2(0.7, 5.0);
         float cyl = min(max(d.x,d.y),0.0) + length(max(d,0.0));
 
         res = opU(res, opU(
@@ -30,8 +30,8 @@ vec2 map(vec3 pos) {
 
 void main()
 {
-    vec2 p = (-1.0+2.0 * gl_FragCoord.xy/iResolution.xy);
-    p.x *= iResolution.x/iResolution.y;
+    vec2 p = (-1.0+2.0 * gl_FragCoord.xy/R.xy);
+    p.x *= R.x/R.y;
 
     vec3 ro = vec3(0.0, 8.0, -12.0);
     vec3 rd = normalize(vec3(p.xy,1.5));
