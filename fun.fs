@@ -49,12 +49,7 @@ void main()
             map(pos+eps.yxy).x - map(pos-eps.yxy).x,
             map(pos+eps.yyx).x - map(pos-eps.yyx).x ));
 
-        eps = normalize(vec3(-0.6, 0.9, -0.5));
-        res = max(0.0, dot(nor, eps));
-        t = res;
-        res = res < 0.1 ? 0.0 : (res < 0.3) ? 0.3 : (res < 0.7) ? 0.7 : 1.0;
-
-        col = 0.4 * (1.0+sin(vec3(0.5,0.4,0)*(map(pos).y-1.0))) * (1.0 + res + step(0.3, t*t));
+        col = 0.4 * (1.0+sin(vec3(0.5,0.4,0)*(map(pos).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))));
     }
 
     gl_FragColor = vec4(col/*mix(col, vec3(0.9), smoothstep(8.5,29.0, length(pos)))*/, 1.0);
