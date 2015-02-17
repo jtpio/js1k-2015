@@ -24,18 +24,13 @@ var fun_renamed_fs =
    "m.x*=R.x/R.y;" +
    "vec3 x=vec3(0.,-6,-20.),T=normalize(vec3(m.xy,3.)),y;" +
    "float d=1.,n;" +
-   "vec3 l=vec3(.1);" +
    "for(int f=0;f<99;f++)" +
      "{" +
        "if((n=v(y=x+T*d).x)<.01||d>60.)" +
          "break;" +
        "d+=n;" +
      "}" +
-   "if(d<60.)" +
-     "{" +
-       "vec3 s=vec3(.01,0.,0.),z=normalize(vec3(v(y+s.xyy).x-v(y-s.xyy).x,v(y+s.yxy).x-v(y-s.yxy).x,v(y+s.yyx).x-v(y-s.yyx).x));" +
-       "l=.4*(1.+sin(vec3(.5,.4,0)*(v(y).y-1.)))*(1.+(max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.3,max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(z,normalize(vec3(-.6,.9,-.5))))));" +
-     "}" +
-   "gl_FragColor=vec4(l,1.);" +
+   "vec3 s=vec3(.01,0.,0.),l=normalize(vec3(v(y+s.xyy).x-v(y-s.xyy).x,v(y+s.yxy).x-v(y-s.yxy).x,v(y+s.yyx).x-v(y-s.yyx).x));" +
+   "gl_FragColor=vec4(d<60.?.4*(1.+sin(vec3(.5,.4,0)*(v(y).y-1.)))*(1.+(max(0.,dot(l,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(l,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(l,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.3,max(0.,dot(l,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(l,normalize(vec3(-.6,.9,-.5)))))):vec3(.1),1.);" +
  "}"
 
