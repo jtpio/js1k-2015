@@ -10,10 +10,10 @@ vec2 map(vec3 pos) {
 
         // the train and the main tube
         // capped cylinder
-        vec2 d = abs(vec2(length(p.xy), p.z - 99.0 + mod(T / i * 80.0, 198.0))) - vec2(0.7, 5.0);
+        vec2 d = abs(vec2(length(p.xy), p.z - 49.0 + mod(T / i * 40.0, 98.0))) - vec2(0.7, 5);
 
         res = opU(res, opU(
-                opU(vec2(min(max(d.x,d.y),0.0) + length(max(d,0.0)), 10.0), vec2(length(p.yx)-0.5, 3.0)),
+                opU(vec2(min(max(d.x,d.y),0.0) + length(max(d,0.0)), 9.0), vec2(length(p.yx)-0.5, 3)),
                 // the torus along the tube
                 vec2(length(vec2(length(p.xy)-0.9,mod(p.z,4.0)-2.0))-0.2, 0.1))
               );
@@ -27,8 +27,8 @@ void main()
     vec2 p = (-1.0+2.0 * gl_FragCoord.xy/R.xy);
     p.x *= R.x/R.y;
 
-    vec3 ro = vec3(0.0, -6, -20.0);
-    vec3 rd = normalize(vec3(p.xy, 3.0)), pos;
+    vec3 ro = vec3(0.0, -6, -20);
+    vec3 rd = normalize(vec3(p.xy, 2)), pos;
 
     float t = 1.0, res;
 
@@ -37,11 +37,11 @@ void main()
         t += res;
     }
 
-    vec3 eps = vec3(0.01, 0.0, 0.0);
+    vec3 eps = vec3(0.01, 0, 0);
     vec3 nor = normalize(vec3(
         map(pos+eps.xyy).x - map(pos-eps.xyy).x,
         map(pos+eps.yxy).x - map(pos-eps.yxy).x,
         map(pos+eps.yyx).x - map(pos-eps.yyx).x ));
 
-    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.4,0)*(map(pos).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.1), 1.0);
+    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.5,0)*(map(pos).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.1), 1.0);
 }
