@@ -4,13 +4,13 @@ vec2 opU( vec2 d1, vec2 d2 ) {
 
 vec2 map(vec3 pos) {
     vec2 res = vec2(1.0);
-    for (float i = 0.3; i < 1.0; i+=0.2) {
+    for (float i = 1.0; i < 9.9; i+=2.2) {
 
-        vec3 p = vec3(cos(i * 9.0 + iGlobalTime * 0.3)*pos.x + sin(i * 9.0 + iGlobalTime * 0.3)*pos.z, pos.y, -sin(i * 9.0 + iGlobalTime * 0.3)*pos.x + cos(i * 9.0 + iGlobalTime * 0.3)*pos.z) + vec3(2.0, sqrt(i) * 20.0 - 20.0, 1.0);
+        vec3 p = vec3(cos(i + iGlobalTime * 0.3)*pos.x + sin(i + iGlobalTime * 0.3)*pos.z, pos.y, -sin(i + iGlobalTime * 0.3)*pos.x + cos(i + iGlobalTime * 0.3)*pos.z) + vec3(2.0, i, 1.0);
 
         // the train and the main tube
         // capped cylinder
-        vec2 d = abs(vec2(length(p.xy), p.z - 99.0 + mod(iGlobalTime / i * 20.0, 198.0))) - vec2(0.7, 5.0);
+        vec2 d = abs(vec2(length(p.xy), p.z - 99.0 + mod(iGlobalTime / i * 80.0, 198.0))) - vec2(0.7, 5.0);
 
         res = opU(res, opU(
                 opU(vec2(min(max(d.x,d.y),0.0) + length(max(d,0.0)), 10.0), vec2(length(p.yx)-0.5, 3.0)),
@@ -27,8 +27,8 @@ void main()
     vec2 p = (-1.0+2.0 * gl_FragCoord.xy/iResolution.xy);
     p.x *= iResolution.x/iResolution.y;
 
-    vec3 ro = vec3(0.0, 4.4, -16.0);
-    vec3 rd = normalize(vec3(p.xy, 2.0)), pos;
+    vec3 ro = vec3(0.0, -6, -20.0);
+    vec3 rd = normalize(vec3(p.xy, 3.0)), pos;
 
     float t = 1.0, res;
     vec3 col = vec3(0.1);

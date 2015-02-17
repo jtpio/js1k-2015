@@ -8,17 +8,17 @@ with(g){
           --t?"precision lowp float;"+
           "uniform float T;"+
           "vec2 R=vec2("+(a.width/=2)+","+(a.height/=2)+");"+
- "vec2 v(vec2 x,vec2 y)" +
+"vec2 v(vec2 x,vec2 y)" +
  "{" +
    "return x.x<y.x?x:y;" +
  "}" +
  "vec2 v(vec3 y)" +
  "{" +
    "vec2 x=vec2(1.);" +
-   "for(float m=.3;m<1.;m+=.2)" +
+   "for(float m=1.;m<9.9;m+=2.2)" +
      "{" +
-       "vec3 d=vec3(cos(m*9.+T*.3)*y.x+sin(m*9.+T*.3)*y.z,y.y,-sin(m*9.+T*.3)*y.x+cos(m*9.+T*.3)*y.z)+vec3(2.,sqrt(m)*20.-20.,1.);" +
-       "vec2 n=abs(vec2(length(d.xy),d.z-99.+mod(T/m*20.,198.)))-vec2(.7,5.);" +
+       "vec3 d=vec3(cos(m+T*.3)*y.x+sin(m+T*.3)*y.z,y.y,-sin(m+T*.3)*y.x+cos(m+T*.3)*y.z)+vec3(2.,m,1.);" +
+       "vec2 n=abs(vec2(length(d.xy),d.z-99.+mod(T/m*80.,198.)))-vec2(.7,5.);" +
        "x=v(x,v(v(vec2(min(max(n.x,n.y),0.)+length(max(n,0.)),10.),vec2(length(d.yx)-.5,3.)),vec2(length(vec2(length(d.xy)-.9,mod(d.z,4.)-2.))-.2,.1)));" +
      "}" +
    "return x;" +
@@ -27,7 +27,7 @@ with(g){
  "{" +
    "vec2 m=-1.+2.*gl_FragCoord.xy/R.xy;" +
    "m.x*=R.x/R.y;" +
-   "vec3 x=vec3(0.,4.4,-16.),T=normalize(vec3(m.xy,2.)),y;" +
+   "vec3 x=vec3(0.,-6,-20.),T=normalize(vec3(m.xy,3.)),y;" +
    "float d=1.,n;" +
    "vec3 l=vec3(.1);" +
    "for(int f=0;f<99;f++)" +
@@ -43,9 +43,7 @@ with(g){
      "}" +
    "gl_FragColor=vec4(l,1.);" +
  "}"
-
-
-          :"attribute vec4 a;void main(){gl_Position=a;}");
+ :"attribute vec4 a;void main(){gl_Position=a;}");
 
     veAP(enVAA(biB(34962,crB())), 2, 5126, liP(x), usP(x),
         buD(34962,new Float32Array([1,1,1,-3,-3,1]),35044)
