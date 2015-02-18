@@ -2,9 +2,7 @@ vec2 opU( vec2 d1, vec2 d2 ) {
     return (d1.x<d2.x) ? d1 : d2;
 }
 
-float hit = 0.0;
-
-float map(vec3 pos) {
+vec2 map(vec3 pos) {
     vec2 res = vec2(1.0);
     for (float i = 1.0; i < 9.9; i+=2.2) {
 
@@ -18,8 +16,7 @@ float map(vec3 pos) {
                 vec2(length(vec2(length(p.xy)-0.9,mod(p.z,4.0)-2.0))-0.2, 0.1))
               );
     }
-    hit = res.y;
-    return res.x;
+    return res;
 }
 
 
@@ -34,15 +31,15 @@ void main()
     float t = 1.0, res;
 
     for (int i=0; i<99; i++) {
-        if((res=map(pos=ro+rd*t)) < 0.01 || t > 60.0 ) break;
+        if((res=map(pos=ro+rd*t).x) < 0.01 || t > 60.0 ) break;
         t += res;
     }
 
     vec3 eps = vec3(0.01, 0, 0);
     vec3 nor = normalize(vec3(
-        map(pos+eps.xyy) - map(pos-eps.xyy),
-        map(pos+eps.yxy) - map(pos-eps.yxy),
-        map(pos+eps.yyx) - map(pos-eps.yyx) ));
+        map(pos+eps.xyy).x - map(pos-eps.xyy).x,
+        map(pos+eps.yxy).x - map(pos-eps.yxy).x,
+        map(pos+eps.yyx).x - map(pos-eps.yyx).x ));
 
-    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.5,0)*(hit-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.9), 1.0);
+    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.5,0)*(map(pos).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.3, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.9), 1.0);
 }
