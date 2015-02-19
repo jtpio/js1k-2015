@@ -3,9 +3,9 @@
  */
 
 var fun_renamed_fs =
- "vec2 v(vec2 y,vec2 x)" +
+ "vec2 v(vec2 x,vec2 y)" +
  "{" +
-   "return y.x<x.x?y:x;" +
+   "return x.x<y.x?x:y;" +
  "}" +
  "vec2 v(vec3 y)" +
  "{" +
@@ -25,11 +25,11 @@ var fun_renamed_fs =
    "float x=1.;" +
    "for(int T=0;T<89;T++)" +
      "{" +
-       "if(v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x).x<.01||x>60.)" +
+       "if(v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).x<.01||x>60.)" +
          "break;" +
-       "x+=v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x).x;" +
+       "x+=v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).x;" +
      "}" +
-   "vec3 y=normalize(vec3(v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x+vec3(.01,0,0).xyy).x-v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x-vec3(.01,0,0).xyy).x,v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x+vec3(.01,0,0).yxy).x-v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x-vec3(.01,0,0).yxy).x,v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x+vec3(.01,0,0).yyx).x-v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x-vec3(.01,0,0).yyx).x));" +
-   "gl_FragColor=vec4(x<60.?.4*(1.+sin(vec3(.5,.5,0)*(v(vec3(0.,-6,-20)+normalize(vec3(m.xy,2))*x).y-1.)))*(1.+(max(0.,dot(y,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(y,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(y,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.5,max(0.,dot(y,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(y,normalize(vec3(-.6,.9,-.5)))))):vec3(.9),1.);" +
+   "vec3 T=normalize(vec3(v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).xyy).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).xyy).x,v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).yxy).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).yxy).x,v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).yyx).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).yyx).x));" +
+   "gl_FragColor=vec4(x<60.?.4*(1.+sin(vec3(.5,.5,0)*(v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).y-1.)))*(1.+(max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.1?0.:max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.5,max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(T,normalize(vec3(-.6,.9,-.5)))))):vec3(.9),1.);" +
  "}"
 

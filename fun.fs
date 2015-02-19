@@ -26,14 +26,14 @@ void main()
     float t = 1.0;
 
     for (int i=0; i<89; i++) {
-        if(map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t).x < 0.01 || t > 60.0 ) break;
-        t += map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t).x;
+        if(map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t).x < 0.01 || t > 60.0 ) break;
+        t += map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t).x;
     }
 
     vec3 nor = normalize(vec3(
-        map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t+vec3(0.01, 0, 0).xyy).x - map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t-vec3(0.01, 0, 0).xyy).x,
-        map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t+vec3(0.01, 0, 0).yxy).x - map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t-vec3(0.01, 0, 0).yxy).x,
-        map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t+vec3(0.01, 0, 0).yyx).x - map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t-vec3(0.01, 0, 0).yyx).x ));
+        map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t+vec3(0.01, 0, 0).xyy).x - map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t-vec3(0.01, 0, 0).xyy).x,
+        map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t+vec3(0.01, 0, 0).yxy).x - map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t-vec3(0.01, 0, 0).yxy).x,
+        map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t+vec3(0.01, 0, 0).yyx).x - map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t-vec3(0.01, 0, 0).yyx).x ));
 
-    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.5,0)*(map(vec3(0.0, -6, -20)+normalize(vec3(p.xy, 2))*t).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.5, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.9), 1.0);
+    gl_FragColor = vec4(t < 60.0 ? 0.4 * (1.0+sin(vec3(0.5,0.5,0)*(map(vec3(0.0, -6, -20)+normalize(vec3(p, 2))*t).y-1.0))) * (1.0 + (max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.1 ? 0.0 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.3 ? 0.3 : max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))) < 0.7 ? 0.7 : 1.0) + step(0.5, max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5))))*max(0.0, dot(nor, normalize(vec3(-0.6, 0.9, -0.5)))))) : vec3(0.9), 1.0);
 }
