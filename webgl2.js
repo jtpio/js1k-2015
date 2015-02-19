@@ -16,17 +16,17 @@ with(g){
  "{" +
    "vec2 x=vec2(1.);" +
    "float r=1.;" +
-   "for(float T=1.;T<9.;T+=2.4)" +
+   "for(float i=1.;i<9.;i+=2.4)" +
      "{" +
-       "vec3 m=vec3(cos(T+T*.3)*y.x+sin(T+T*.3)*y.z,y.y+T,-sin(T+T*.3)*y.x+cos(T+T*.3)*y.z);" +
-       "vec2 d=abs(vec2(length(m.xy),m.z-49.+mod(T*T*8.,98.)))-vec2(.7,5);" +
+       "vec3 m=vec3(cos(i+T*.3)*y.x+sin(i+T*.3)*y.z,y.y+i,-sin(i+T*.3)*y.x+cos(i+T*.3)*y.z);" +
+       "vec2 d=abs(vec2(length(m.xy),m.z-49.+mod(i*T*8.,98.)))-vec2(.7,5);" +
        "x=v(x,v(v(vec2(min(max(d.x,d.y),0.)+length(max(d,0.)),9.),vec2(length(m.yx)-.5,3)),vec2(length(vec2(length(m.xy)-.9,mod(m.z,4.)-2.))-.2,.1)));" +
      "}" +
    "return x;" +
  "}" +
  "void main()" +
  "{" +
-   "vec2 m=-1.+2.*gl_FragCoord.xy/R.xy;" +
+   "vec2 m=-1.+2.*gl_FragCoord.xy/R;" +
    "m.x*=R.x/R.y;" +
    "float x=1.;" +
    "for(int T=0;T<89;T++)" +

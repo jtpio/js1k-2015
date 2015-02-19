@@ -21,8 +21,8 @@ vec2 map(vec3 pos) {
 
 void main()
 {
-    vec2 p = -1.0+2.0 * gl_FragCoord.xy/R.xy;
-    p.x *= R.x/R.y;
+    vec2 p = -1.0+2.0 * gl_FragCoord.xy/vec2(640.0, 360.0);
+    p.x *= 1.7;
 
     float t = 1.0;
 

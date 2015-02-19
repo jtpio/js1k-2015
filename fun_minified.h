@@ -21,8 +21,8 @@ var fun_renamed_fs =
  "}" +
  "void main()" +
  "{" +
-   "vec2 m=-1.+2.*gl_FragCoord.xy/R.xy;" +
-   "m.x*=R.x/R.y;" +
+   "vec2 m=-1.+2.*gl_FragCoord.xy/vec2(640.,360.);" +
+   "m.x*=1.7;" +
    "float x=1.;" +
    "for(int T=0;T<89;T++)" +
      "{" +
