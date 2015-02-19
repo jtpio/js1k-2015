@@ -1,5 +1,5 @@
-for(k in g)
-  g[k.match(/^..|[A-V]/g).join("")]=g[k];
+for(x in g)
+  g[x.match(/^..|[A-V]/g).join("")]=g[x];
 
 with(g){
     for(x=crP(t=r=2);t;coS(s),atS(x,s))
