@@ -15,27 +15,26 @@ with(g){
  "vec2 v(vec3 y)" +
  "{" +
    "vec2 x=vec2(1.);" +
-   "for(float i=1.;i<9.9;i+=1.9)" +
+   "for(float n=1.;n<9.9;n+=1.9)" +
      "{" +
-       "vec3 m=vec3(cos(i+T*.3)*y.x+sin(i+T*.3)*y.z,y.y+i,-sin(i+T*.3)*y.x+cos(i+T*.3)*y.z);" +
-       "vec2 d=abs(vec2(length(m.xy),m.z-49.+mod(i*T*8.,98.)))-vec2(.7,5);" +
-       "x=v(x,v(v(vec2(min(max(d.x,d.y),0.)+length(max(d,0.)),2.),vec2(length(m.yx)-.5,10)),vec2(length(vec2(length(m.xy)-.9,mod(m.z,4.)-2.))-.2,5)));" +
+       "vec2 c=abs(vec2(length(vec3(cos(n+T*.3)*y.x+sin(n+T*.3)*y.z,y.y+n,cos(n+T*.3)*y.z-sin(n+T*.3)*y.x).xy),cos(n+T*.3)*y.z-sin(n+T*.3)*y.x-49.+mod(T*n*8.,98.)))-vec2(.7,5);" +
+       "x=v(x,v(v(vec2(min(max(c.x,c.y),0.)+length(max(c,0.)),2.),vec2(length(vec3(cos(n+T*.3)*y.x+sin(n+T*.3)*y.z,y.y+n,cos(n+T*.3)*y.z-sin(n+T*.3)*y.x).yx)-.5,10)),vec2(length(vec2(length(vec3(cos(n+T*.3)*y.x+sin(n+T*.3)*y.z,y.y+n,cos(n+T*.3)*y.z-sin(n+T*.3)*y.x).xy)-.9,mod(cos(n+T*.3)*y.z-sin(n+T*.3)*y.x,4.)-2.))-.2,5)));" +
      "}" +
    "return x;" +
  "}" +
  "void main()" +
  "{" +
-   "float x=1.;" +
-   "vec2 m=2.*gl_FragCoord.xy/R-x;" +
-   "m.x*=R.x/R.y;" +
-   "for(int T=0;T<89;T++)" +
+   "float n=1.;" +
+   "vec2 y=2.*gl_FragCoord.xy/R-n;" +
+   "y.x*=R.x/R.y;" +
+   "for(int x=0;x<89;x++)" +
      "{" +
-       "if(v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).x<.01||x>60.)" +
+       "if(v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n).x<.01||n>60.)" +
          "break;" +
-       "x+=v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).x;" +
+       "n+=v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n).x;" +
      "}" +
-   "vec3 T=normalize(vec3(v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).xyy).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).xyy).x,v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).yxy).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).yxy).x,v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x+vec3(.01,0,0).yyx).x-v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x-vec3(.01,0,0).yyx).x));" +
-   "gl_FragColor=vec4(x<60.?.5*sin(vec3(.1,.1,.5)*v(vec3(0.,-6,-20)+normalize(vec3(m,2))*x).y)*(1.+(max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.1?.1:max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.3?.3:max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))<.7?.7:1.)+step(.5,max(0.,dot(T,normalize(vec3(-.6,.9,-.5))))*max(0.,dot(T,normalize(vec3(-.6,.9,-.5)))))):vec3(0.),1.);" +
+   "vec3 x=normalize(vec3(v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n+vec3(.01,0,0).xyy).x-v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n-vec3(.01,0,0).xyy).x,v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n+vec3(.01,0,0).yxy).x-v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n-vec3(.01,0,0).yxy).x,v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n+vec3(.01,0,0).yyx).x-v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n-vec3(.01,0,0).yyx).x));" +
+   "gl_FragColor=vec4(n<60.?.5*sin(vec3(.1,.1,.5)*v(vec3(0.,-6,-20)+normalize(vec3(y,2))*n).y)*(1.+(max(0.,dot(x,normalize(vec3(0,1,0))))<.1?.1:max(0.,dot(x,normalize(vec3(0,1,0))))<.3?.3:max(0.,dot(x,normalize(vec3(0,1,0))))<.7?.7:1.)+step(.5,max(0.,dot(x,normalize(vec3(0,1,0))))*max(0.,dot(x,normalize(vec3(0,1,0)))))):vec3(0.),1.);" +
  "}"
  :"attribute vec4 a;void main(){gl_Position=a;}");
 
