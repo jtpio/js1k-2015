@@ -10,7 +10,6 @@ var fun_renamed_fs =
  "vec2 v(vec3 y)" +
  "{" +
    "vec2 x=vec2(1.);" +
-   "float r=1.;" +
    "for(float T=1.;T<9.;T+=2.4)" +
      "{" +
        "vec3 m=vec3(cos(T+T*.3)*y.x+sin(T+T*.3)*y.z,y.y+T,-sin(T+T*.3)*y.x+cos(T+T*.3)*y.z);" +
@@ -21,8 +20,8 @@ var fun_renamed_fs =
  "}" +
  "void main()" +
  "{" +
-   "vec2 m=-1.+2.*gl_FragCoord.xy/vec2(640.,360.);" +
-   "m.x*=1.7;" +
+   "vec2 m=-1.+2.*gl_FragCoord.xy/R.xy;" +
+   "m.x*=R.x/R.y;" +
    "float x=1.;" +
    "for(int T=0;T<89;T++)" +
      "{" +
