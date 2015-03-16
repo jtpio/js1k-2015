@@ -2,7 +2,7 @@
  * http://www.ctrl-alt-test.fr
  */
 
-var fun_renamed_fs =
+var shader_renamed_fs =
  "uniform float T;" +
  "vec2 v(vec2 x,vec2 y)" +
  "{" +
