@@ -7,7 +7,7 @@ with(g){
 
           --y?"precision lowp float;"+
           "uniform float T;"+
-          "vec2 R=vec2("+(a.width/=2)+","+(a.height/=2)+");"+
+          "vec2 R=vec2("+(a.width/=4)+","+(a.height/=4)+");"+
 "vec2 v(vec2 x,vec2 y)" +
  "{" +
    "return x.x<y.x?x:y;" +
